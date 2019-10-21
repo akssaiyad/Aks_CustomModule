@@ -1,2 +1,2 @@
-# aks_blog
-Update Blog Block Section
+# Aks_CustomModule
+Basic structure of Custom MOdule for Magento 2
