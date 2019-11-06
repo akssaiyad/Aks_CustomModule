@@ -1,0 +1,49 @@
+<?php 
+/**
+ * @category Mageants InfiniteScroll
+ * @package Mageants_InfiniteScroll
+ * @copyright Copyright (c) 2018  Mageants
+ * @author Mageants Team <support@mageants.com>
+ */
+ ?>
+<?php  
+  $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+  $loaded = $block->getLoadedProductCollection();
+  $InfiniteBlock =  $block->getLayout()->createBlock('Rocktechnolab\Customemodule\Block\InfiniteScroll');
+  $category = $objectManager->get('Magento\Framework\Registry')->registry('current_category');
+  $categoryMode = $category->getDisplayMode();  
+
+  if ($InfiniteBlock->getLoadingType() != "0" && $categoryMode !="PAGE") :
+
+    $productGroup = $InfiniteBlock->getProductGroup();
+
+?>
+
+    <div id="imageLoader">
+      <img src="<?php echo $this->getViewFileUrl($InfiniteBlock->getImagePath()); ?>" />    
+    </div>
+
+    <div id="infi" class="<?php echo $InfiniteBlock->getLoadingType(); ?>" >
+
+      <input type="hidden" id="isShowInfo" name="page" value="<?php echo $InfiniteBlock->getInfoBar(); ?>">
+      <input type="hidden" id="pageLinkUrl" name="pageLink" value="<?php echo $this->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]); ?>">
+      <input type="hidden" id="pageTotal" name="pageTotal" value="<?php echo $loaded->getLastPageNumber(); ?>">
+      <input type="hidden" id="infoBarStyle" name="infoBarStyle" value="<?php echo $InfiniteBlock->getAdvancedStyle(); ?>">
+      <input type="hidden" id="groupType" name="groupType" value="<?php echo $productGroup; ?>">
+
+      <?php if ($InfiniteBlock->getLoadingType() == "2") : ?>
+        <div id="divNext">          
+          <button id="btnNext" style="<?php echo $InfiniteBlock->getStylesButton(); ?>"><?php echo $InfiniteBlock->getNextButton(); ?></button>
+        </div>
+      <?php endif; ?>
+
+    </div>
+      <script type="text/javascript">
+      require(['jquery', 'infinitescroll'], function($){
+                $(function($) {
+                    // InfiniteScroll:
+                });
+            }); 
+    </script>
+  <?php endif; ?>
+
